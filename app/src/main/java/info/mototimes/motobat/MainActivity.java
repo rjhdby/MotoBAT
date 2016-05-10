@@ -42,8 +42,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("OBSERV", "MAP READY");
         Store.fetch().subscribe(b -> {
             Log.d("OBSERV", "FETCH COMPLETE");
-            return Store.elements().observeOn(AndroidSchedulers.mainThread());
-        }).subscribe(p -> mMap.addMarker(new MarkerOptions().position(p.getLatLng()))));
+            Store.elements()
+                 .observeOn(AndroidSchedulers.mainThread())
+                 .subscribe(p -> mMap.addMarker(new MarkerOptions().position(p.getLatLng())));
+        });
         Log.d("OBSERV", "OBSERVE COMPLETE");
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
