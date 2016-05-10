@@ -2,16 +2,16 @@ package info.mototimes.motobat;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import info.mototimes.motobat.network.Request;
-import info.mototimes.motobat.network.RequestType;
+import info.mototimes.motobat.content.Store;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -24,8 +24,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        new Request(RequestType.GET_POINTS).add("a", "b").add("c", "d").build();
     }
 
 
@@ -41,10 +39,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        Log.d("OBSERV", "MAP READY");
+        Store.fetch().subscribe(b -> {
+            Log.d("OBSERV", "FETCH COMPLETE");
+            return Store.elements().observeOn(AndroidSchedulers.mainThread());
+        }).subscribe(p -> mMap.addMarker(new MarkerOptions().position(p.getLatLng()))));
+        Log.d("OBSERV", "OBSERVE COMPLETE");
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

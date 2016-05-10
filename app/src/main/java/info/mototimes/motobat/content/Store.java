@@ -1,18 +1,42 @@
 package info.mototimes.motobat.content;
 
-import java.util.List;
+import java.util.ArrayList;
 
-/**
- * Created by rjhdby on 06.05.16.
- */
+import info.mototimes.motobat.models.PointModel;
+import info.mototimes.motobat.network.MototimesApi;
+import rx.Observable;
+import rx.Subscriber;
+
 public class Store {
-    private static Store ourInstance = new Store();
-    List<Point> points;
+    private static ArrayList<Point> points = new ArrayList<>();
 
-    private Store() {
+    public static Observable<Boolean> fetch() {
+        ArrayList<Point> newPoints = new ArrayList<>();
+        return Observable.create(subscriber -> {
+            MototimesApi.api.getList()
+                            .flatMap(n -> Observable.from(n.data))
+                            .subscribe(new Subscriber<PointModel>() {
+                                @Override
+                                public void onCompleted() {
+                                    points = new ArrayList<>(newPoints);
+                                    subscriber.onNext(true);
+                                    subscriber.onCompleted();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(PointModel pointModel) {
+                                    newPoints.add(new Point(pointModel));
+                                }
+                            });
+        });
     }
 
-    public static Store getInstance() {
-        return ourInstance;
+    public static Observable<Point> elements() {
+        return Observable.from(points);
     }
 }

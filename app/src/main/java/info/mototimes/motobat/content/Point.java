@@ -1,21 +1,32 @@
 package info.mototimes.motobat.content;
 
-import android.view.View;
-
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+
+import info.mototimes.motobat.models.PointModel;
 
 /**
- * Created by rjhdby on 06.05.16.
+ * Created by rjhdby on 10.05.16.
  */
-public interface Point {
-    PointType getType();
+public class Point {
+    private int            id;
+    private int            created;
+    private LatLng         latLng;
+    private int            karma;
+    private PointAlignment alignment;
+    private PointType      type;
+    private String         text;
 
-    LatLng getLatLng();
+    public Point(PointModel model) {
+        id = model.id;
+        created = model.created;
+        latLng = new LatLng(model.lat, model.lon);
+        karma = model.karma;
+        alignment = PointAlignment.parse(model.alignment);
+        type = PointType.parse(model.type);
+        text = model.text;
+    }
 
-    float getAlpha();
-
-    MarkerOptions getMarkerOptions();
-
-    View getMarkerInfoView();
+    public LatLng getLatLng() {
+        return latLng;
+    }
 }
