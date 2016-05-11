@@ -1,12 +1,11 @@
-package info.mototimes.motobat.content;
+package info.mototimes.motobat.common;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import info.mototimes.motobat.dictionaries.PointAlignment;
+import info.mototimes.motobat.dictionaries.PointType;
 import info.mototimes.motobat.models.PointModel;
 
-/**
- * Created by rjhdby on 10.05.16.
- */
 public class Point {
     private int            id;
     private int            created;
@@ -28,5 +27,9 @@ public class Point {
 
     public LatLng getLatLng() {
         return latLng;
+    }
+
+    public PointType getType() {
+        return type;
     }
 }

@@ -1,14 +1,20 @@
-package info.mototimes.motobat.content;
+package info.mototimes.motobat.dictionaries;
+
+import info.mototimes.motobat.R;
 
 /**
  * Created by rjhdby on 06.05.16.
  */
 public enum PointType {
-    POLICE_GS,
-    POLICE_RT,
-    POLICE_CAR,
-    CAMERA,
-    UNKNOWN;
+    POLICE_GS(R.drawable.gs),
+    POLICE_RT(R.drawable.rt),
+    POLICE_CAR(R.drawable.car),
+    CAMERA(R.drawable.camera),
+    UNKNOWN(R.drawable.car);
+
+    public final int drawable;
+
+    PointType(int drawable) {this.drawable = drawable;}
 
     public static PointType parse(String type) {
         switch (type) {

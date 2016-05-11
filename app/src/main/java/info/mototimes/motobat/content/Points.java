@@ -2,20 +2,21 @@ package info.mototimes.motobat.content;
 
 import java.util.ArrayList;
 
+import info.mototimes.motobat.common.Point;
 import info.mototimes.motobat.models.PointModel;
-import info.mototimes.motobat.network.MototimesApi;
+import info.mototimes.motobat.services.MototimesRequestService;
 import rx.Observable;
 import rx.Subscriber;
 
-public class Store {
+public class Points {
     private static ArrayList<Point> points = new ArrayList<>();
 
     public static Observable<Boolean> fetch() {
         ArrayList<Point> newPoints = new ArrayList<>();
         return Observable.create(subscriber -> {
-            MototimesApi.api.getList()
-                            .flatMap(n -> Observable.from(n.data))
-                            .subscribe(new Subscriber<PointModel>() {
+            MototimesRequestService.api.getList()
+                                       .flatMap(n -> Observable.from(n.data))
+                                       .subscribe(new Subscriber<PointModel>() {
                                 @Override
                                 public void onCompleted() {
                                     points = new ArrayList<>(newPoints);

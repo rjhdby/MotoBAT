@@ -1,4 +1,4 @@
-package info.mototimes.motobat.content;
+package info.mototimes.motobat.dictionaries;
 
 /**
  * Created by rjhdby on 10.05.16.
