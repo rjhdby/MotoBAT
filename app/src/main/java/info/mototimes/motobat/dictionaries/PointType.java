@@ -2,14 +2,11 @@ package info.mototimes.motobat.dictionaries;
 
 import info.mototimes.motobat.R;
 
-/**
- * Created by rjhdby on 06.05.16.
- */
 public enum PointType {
     POLICE_GS(R.drawable.gs),
     POLICE_RT(R.drawable.rt),
     POLICE_CAR(R.drawable.car),
-    CAMERA(R.drawable.camera),
+    CAMERA(R.drawable.camera_small),
     UNKNOWN(R.drawable.car);
 
     public final int drawable;

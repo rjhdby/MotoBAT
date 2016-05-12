@@ -8,12 +8,13 @@ import info.mototimes.motobat.models.PointModel;
 
 public class Point {
     private int            id;
-    private int            created;
+    private long           created;
     private LatLng         latLng;
     private int            karma;
     private PointAlignment alignment;
     private PointType      type;
     private String         text;
+    private String         markerId;
 
     public Point(PointModel model) {
         id = model.id;
@@ -31,5 +32,21 @@ public class Point {
 
     public PointType getType() {
         return type;
+    }
+
+    public long getAge() {
+        return (System.currentTimeMillis() / 1000 - created) / 60;
+    }
+
+    public int getKarma() {
+        return karma;
+    }
+
+    public String getMarkerId() {
+        return markerId;
+    }
+
+    public void setMarkerId(String markerId) {
+        this.markerId = markerId;
     }
 }
