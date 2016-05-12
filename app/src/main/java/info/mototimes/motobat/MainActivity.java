@@ -1,9 +1,9 @@
 package info.mototimes.motobat;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-
-import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +14,6 @@ import rx.android.schedulers.AndroidSchedulers;
 
 
 public class MainActivity extends FragmentActivity {
-
     Subscription update;
 
     @Override
@@ -45,8 +44,7 @@ public class MainActivity extends FragmentActivity {
         if (MapController.isInitialized()) {
             subscribeServices();
         } else {
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-            MapController.init(mapFragment).subscribe(b -> subscribeServices());
+            MapController.init(this).subscribe(b -> subscribeServices());
         }
     }
 }
