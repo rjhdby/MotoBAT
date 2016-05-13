@@ -1,7 +1,5 @@
 package info.mototimes.motobat.controllers;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import info.mototimes.motobat.common.Point;
@@ -21,7 +19,6 @@ public class ContentController {
                                        .subscribe(new Subscriber<PointModel>() {
                                            @Override
                                            public void onCompleted() {
-                                               Log.e("REACTX", "Fetch complete");
                                                points = new ArrayList<>(newPoints);
                                                subscriber.onNext(true);
                                                subscriber.onCompleted();

@@ -42,8 +42,8 @@ public class Point {
         return karma;
     }
 
-    public String getMarkerId() {
-        return markerId;
+    public String getText() {
+        return text;
     }
 
     public void setMarkerId(String markerId) {
