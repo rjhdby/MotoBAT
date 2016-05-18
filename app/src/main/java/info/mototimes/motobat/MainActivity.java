@@ -10,29 +10,35 @@ import java.util.concurrent.TimeUnit;
 import info.mototimes.motobat.controllers.ContentController;
 import info.mototimes.motobat.controllers.MapController;
 import info.mototimes.motobat.controllers.PermissionController;
+import info.mototimes.motobat.controllers.PreferencesController;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-
 public class MainActivity extends FragmentActivity {
-    Subscription update;
+    private static Subscription updatePoints;
+    private static Subscription updateCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PreferencesController.init(this);
         PermissionController.init(this);
         MapController.init((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
     }
 
     private void startUpdateScheduling() {
-        update = ContentController.fetch().repeatWhen(b -> b.delay(30, TimeUnit.MINUTES))
-                                  .observeOn(AndroidSchedulers.mainThread())
-                                  .subscribe(r -> MapController.redrawMarkers());
+        updatePoints = ContentController.fetch()
+                                        .repeatWhen(b -> b.delay(5, TimeUnit.MINUTES))
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(r -> MapController.redrawMarkers());
+        updateCamera = MapController.updateCamera.subscribe(PreferencesController::updateCamera);
+
     }
 
     private void stopUpdateScheduling() {
-        update.unsubscribe();
+        if (updatePoints != null && !updatePoints.isUnsubscribed()) updatePoints.unsubscribe();
+        if (updateCamera != null && !updateCamera.isUnsubscribed()) updateCamera.unsubscribe();
     }
 
     @Override
